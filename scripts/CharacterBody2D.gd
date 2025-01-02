@@ -46,15 +46,16 @@ func _physics_process(delta):
 		animated_sprite.play("up")
 	if(direction.x > 0 && direction.y > 0):
 		direction_type = 5
+		animated_sprite.play("down")
 	if(direction.x > 0 && direction.y < 0):
 		direction_type = 6
-		animated_sprite.play("right")
+		animated_sprite.play("up")
 	if(direction.x < 0 && direction.y > 0):
 		direction_type = 7
-		animated_sprite.play("right")
+		animated_sprite.play("down")
 	if(direction.x < 0 && direction.y < 0):
 		direction_type = 8
-		animated_sprite.play("right")
+		animated_sprite.play("up")
 	#lunge cooldown counter
 	if(Input.is_action_pressed("ui_lunge") == false && lunge_counter < 100.0):
 		lunge_counter += 1.0

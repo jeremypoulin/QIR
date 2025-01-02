@@ -203,7 +203,7 @@ bounce = 0.8
 [node name="Character" type="CharacterBody2D" parent="."]
 position = Vector2(449, 767)
 collision_layer = 8
-collision_mask = 13
+collision_mask = 29
 script = ExtResource("1_fucrj")
 metadata/_edit_group_ = true
 
@@ -250,6 +250,18 @@ texture = ExtResource("2_0nif7")
 position = Vector2(168, 50)
 scale = Vector2(17, 1)
 collision_mask = 15
+
+[node name="BarrierTop" parent="." instance=ExtResource("3_b4wos")]
+position = Vector2(409, 45)
+scale = Vector2(17, 1)
+collision_layer = 16
+collision_mask = 16
+
+[node name="BarrierBottom" parent="." instance=ExtResource("3_b4wos")]
+position = Vector2(409, 1153)
+scale = Vector2(17, 1)
+collision_layer = 16
+collision_mask = 16
 
 [node name="HorizontalWallTop3" parent="." instance=ExtResource("3_b4wos")]
 position = Vector2(168, 1150)
