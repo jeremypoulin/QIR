@@ -43,6 +43,12 @@ layout_mode = 2
 theme_override_font_sizes/font_size = 60
 text = "Practice"
 
+[node name="Back" type="Button" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 60
+text = "Back"
+
 [connection signal="pressed" from="MarginContainer/VBoxContainer/Local" to="." method="_on_local_pressed"]
 [connection signal="pressed" from="MarginContainer/VBoxContainer/Tournament" to="." method="_on_tournament_pressed"]
 [connection signal="pressed" from="MarginContainer/VBoxContainer/Practice" to="." method="_on_practice_pressed"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/Back" to="." method="_on_back_pressed"]

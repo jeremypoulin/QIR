@@ -22,7 +22,13 @@ func _on_area_2d_body_entered(body: Node2D) -> void:
 		print("P1 Scored")
 		Global.user_score += 1
 		control._update_user_score()
-		timer.start()
+		if(Global.user_score >= 7):
+			Global.user_score = 0
+			Global.bot_score = 0
+			Global.bottom_player_win = true
+			get_tree().change_scene_to_file("res://scenes/WinScreen.tscn")
+		else:
+			timer.start()
 
 
 func _on_area_2d_2_body_entered(body: Node2D) -> void:
@@ -30,7 +36,13 @@ func _on_area_2d_2_body_entered(body: Node2D) -> void:
 		print("P2 Scored")
 		Global.bot_score += 1
 		control._update_bot_score()
-		timer.start()
+		if(Global.bot_score >= 7):
+			Global.user_score = 0
+			Global.bot_score = 0
+			Global.top_player_win = true
+			get_tree().change_scene_to_file("res://scenes/WinScreen.tscn")
+		else:
+			timer.start()
 		
 
 func _on_timer_timeout() -> void:
