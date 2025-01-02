@@ -1,0 +1,48 @@
+[gd_scene load_steps=2 format=3 uid="uid://cccd7io7shglq"]
+
+[ext_resource type="Script" path="res://scripts/Modes.gd" id="1_alc6q"]
+
+[node name="Modes" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_alc6q")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 13
+anchor_left = 0.5
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -118.5
+offset_right = 118.5
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_constants/separation = 8
+
+[node name="Local" type="Button" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 60
+text = "Local"
+
+[node name="Tournament" type="Button" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 60
+text = "Tournament"
+
+[node name="Practice" type="Button" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 60
+text = "Practice"
+
+[connection signal="pressed" from="MarginContainer/VBoxContainer/Local" to="." method="_on_local_pressed"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/Tournament" to="." method="_on_tournament_pressed"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/Practice" to="." method="_on_practice_pressed"]
