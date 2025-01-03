@@ -6,6 +6,7 @@ var throw_counter = 0
 var stun_counter = 0
 var stunned = false
 var grabbed = false
+var grab_counter = 0
 var speed = 400
 var outgoing_force = speed * 0.1
 var lunge_counter = 0.0
@@ -13,7 +14,9 @@ var lunge_duration = 0.0
 var lunging = false
 var collision_counter = 0
 var direction = Vector2.ZERO
+var other_direction = Vector2.ZERO
 @onready var puck = get_parent().get_node("Puck")
+@onready var puck_sprite = get_parent().get_node("Puck/Sprite2D")
 @onready var lunge_bar = get_parent().get_node("Control/LungeBar")
 @onready var throw_bar = get_parent().get_node("Control/ThrowBar")
 @onready var animated_sprite: AnimatedSprite2D = $AnimatedSprite2D
@@ -28,6 +31,7 @@ func _physics_process(delta):
 	direction = Vector2(int(Input.is_action_pressed("ui_right")) - int(Input.is_action_pressed("ui_left")), int(Input.is_action_pressed("ui_down")) - int(Input.is_action_pressed("ui_up")))
 	if(direction != Vector2.ZERO):
 		direction_type = 0
+		other_direction = direction
 		direction = direction.normalized()
 	else:
 		animated_sprite.play("idle")
@@ -82,25 +86,42 @@ func _physics_process(delta):
 	if(!grabbed && !stunned):
 		velocity = direction * speed
 		move_and_slide()
+	if(!grabbed && grab_counter > 0):
+		grab_counter -= 1
+		$AnimatedSprite2D.self_modulate = Color(0, 0, 1)
+		if(grab_counter == 0):
+			$AnimatedSprite2D.self_modulate = Color(1, 1, 1)
 
 	#collision cooldown counter
 	if(collision_counter > 0):
 		collision_counter -= 1
+		
+	if(abs(puck.linear_velocity.length()) > abs(speed) * 3/4 || velocity == Vector2.ZERO && puck.linear_velocity.length() != 0):
+		puck_sprite.self_modulate = Color(2, 1, 0)
+	else:
+		puck_sprite.self_modulate = Color(1, 1 , 1)
 	#collision
 	for i in range(get_slide_collision_count()):
 		var collision = get_slide_collision(i)
 		if(collision.get_collider() is RigidBody2D && collision_counter == 0):
 			collision_counter = 50
 			collision.get_collider().apply_central_impulse(-collision.get_normal() * outgoing_force)
-			velocity = Vector2.ZERO
-			stunned = true
-			stun_counter = 50
+			if(abs(puck.linear_velocity.length()) > abs(speed) * 3/4 || velocity == Vector2.ZERO && puck.linear_velocity.length() != 0):
+				stunned = true
+				stun_counter = 50
+				velocity = Vector2.ZERO
+	
+	#set throw bar location
+	throw_bar.position.x = position.x - 65
+	throw_bar.position.y = position.y + 25
 			
 	if(stunned && stun_counter > 0):
 		stun_counter -= 1
 		if(stun_counter <= 0):
 			stunned = false
 	if(grabbed):
+		$Arrow.visible = true
+		throw_bar.visible = true
 		print("GRABBED")
 		if(rising == true):
 			throw_counter += 2
@@ -111,13 +132,38 @@ func _physics_process(delta):
 			if(throw_counter <= 0):
 				rising = true
 				_throw()
-		
+		if(direction_type == 0 || direction_type == 4):
+			$Arrow.position.y = -100
+			$Arrow.position.x = 0
+		if(direction_type == 1):
+			$Arrow.position.y = 0
+			$Arrow.position.x = 100
+		if(direction_type == 2):
+			$Arrow.position.y = 0
+			$Arrow.position.x = -100
+		if(direction_type == 3):
+			$Arrow.position.y = 100
+			$Arrow.position.x = 0
+		if(direction_type == 5):
+			$Arrow.position.y = 100
+			$Arrow.position.x = 100
+		if(direction_type == 6):
+			$Arrow.position.y = -100
+			$Arrow.position.x = 100
+		if(direction_type == 7):
+			$Arrow.position.y = 100
+			$Arrow.position.x = -100
+		if(direction_type == 8):
+			$Arrow.position.y = -100
+			$Arrow.position.x = -100
+			
 	
-	if(!puck.complete && Input.is_action_pressed("ui_grab")):
+	if(!puck.complete && Input.is_action_pressed("ui_grab") && grab_counter == 0):
 		_grab()
 				
 	if(puck.complete && Input.is_action_pressed("ui_throw")):
 		_throw()
+		
 		
 func _grab():
 	if(puck.in_range && !puck.complete && Input.is_action_pressed("ui_grab")):
@@ -131,10 +177,13 @@ func _grab():
 		puck.global_position = global_position
 		
 func _throw():
+	$Arrow.visible = false
+	throw_bar.visible = false
 	puck.complete = false
 	grabbed = false
 	puck.freeze = false
-	if(direction_type == 0 || 4):
+	grab_counter = 50
+	if(direction_type == 0 || direction_type == 4):
 		puck.global_position.x = global_position.x + 0
 		puck.global_position.y = global_position.y - 100
 	if(direction_type == 1):

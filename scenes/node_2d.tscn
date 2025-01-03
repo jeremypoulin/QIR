@@ -1,4 +1,4 @@
-[gd_scene load_steps=43 format=3 uid="uid://hqw3f50q5l6x"]
+[gd_scene load_steps=45 format=3 uid="uid://hqw3f50q5l6x"]
 
 [ext_resource type="Script" path="res://scripts/CharacterBody2D.gd" id="1_fucrj"]
 [ext_resource type="Texture2D" uid="uid://bccjreg5txub7" path="res://sprites/icon.svg" id="2_0nif7"]
@@ -11,6 +11,8 @@
 [ext_resource type="Script" path="res://scripts/control.gd" id="7_kwc7n"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_51qmn"]
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_3rmi1"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_veqb6"]
 atlas = ExtResource("3_pgmfr")
@@ -167,6 +169,8 @@ bounce = 1.0
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_anu0g"]
 
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_i775o"]
+
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_4x14q"]
 size = Vector2(180, 31)
 
@@ -212,6 +216,7 @@ scale = Vector2(4.68, 4.68)
 shape = SubResource("CircleShape2D_51qmn")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Character"]
+material = SubResource("CanvasItemMaterial_3rmi1")
 position = Vector2(4, 0)
 scale = Vector2(0.719998, 0.719998)
 sprite_frames = SubResource("SpriteFrames_rdir2")
@@ -226,8 +231,13 @@ script = ExtResource("3_qdxev")
 scale = Vector2(0.388, 0.388)
 shape = SubResource("CircleShape2D_r454v")
 
+[node name="Arrow" type="Sprite2D" parent="Character"]
+visible = false
+scale = Vector2(0.25, 0.25)
+texture = ExtResource("2_0nif7")
+
 [node name="Puck" type="RigidBody2D" parent="."]
-position = Vector2(449, 255)
+position = Vector2(449, 600)
 collision_layer = 4
 collision_mask = 13
 mass = 0.1
@@ -242,6 +252,7 @@ scale = Vector2(4, 4)
 shape = SubResource("CircleShape2D_anu0g")
 
 [node name="Sprite2D" type="Sprite2D" parent="Puck"]
+material = SubResource("CanvasItemMaterial_i775o")
 texture = ExtResource("2_0nif7")
 
 [node name="Timer" type="Timer" parent="Puck"]
@@ -252,13 +263,13 @@ scale = Vector2(17, 1)
 collision_mask = 15
 
 [node name="BarrierTop" parent="." instance=ExtResource("3_b4wos")]
-position = Vector2(409, 45)
+position = Vector2(450, 45)
 scale = Vector2(17, 1)
 collision_layer = 16
 collision_mask = 16
 
 [node name="BarrierBottom" parent="." instance=ExtResource("3_b4wos")]
-position = Vector2(409, 1153)
+position = Vector2(450, 1153)
 scale = Vector2(17, 1)
 collision_layer = 16
 collision_mask = 16
@@ -339,6 +350,7 @@ offset_bottom = 670.0
 label_settings = SubResource("LabelSettings_r5kr0")
 
 [node name="ThrowBar" type="ProgressBar" parent="Control"]
+visible = false
 layout_mode = 0
 offset_left = 850.0
 offset_top = 950.0
@@ -368,8 +380,41 @@ offset_right = 10.0
 offset_bottom = 7.0
 color = Color(0.912441, 0.412972, 0.349921, 1)
 
+[node name="Ai" type="CharacterBody2D" parent="."]
+position = Vector2(449, 435)
+collision_layer = 8
+collision_mask = 29
+metadata/_edit_group_ = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Ai"]
+scale = Vector2(4.68, 4.68)
+shape = SubResource("CircleShape2D_51qmn")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Ai"]
+material = SubResource("CanvasItemMaterial_3rmi1")
+position = Vector2(4, 0)
+scale = Vector2(0.719998, 0.719998)
+sprite_frames = SubResource("SpriteFrames_rdir2")
+animation = &"up"
+
+[node name="GrabArea" type="Area2D" parent="Ai"]
+scale = Vector2(25, 25)
+collision_mask = 7
+script = ExtResource("3_qdxev")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Ai/GrabArea"]
+scale = Vector2(0.388, 0.388)
+shape = SubResource("CircleShape2D_r454v")
+
+[node name="Arrow" type="Sprite2D" parent="Ai"]
+visible = false
+scale = Vector2(0.25, 0.25)
+texture = ExtResource("2_0nif7")
+
 [connection signal="body_entered" from="Character/GrabArea" to="Puck" method="_on_grab_area_body_entered"]
 [connection signal="body_exited" from="Character/GrabArea" to="Puck" method="_on_grab_area_body_exited"]
 [connection signal="timeout" from="Puck/Timer" to="Puck" method="_on_timer_timeout"]
 [connection signal="body_entered" from="Area2D" to="Puck" method="_on_area_2d_body_entered"]
 [connection signal="body_entered" from="Area2D2" to="Puck" method="_on_area_2d_2_body_entered"]
+[connection signal="body_entered" from="Ai/GrabArea" to="Puck" method="_on_grab_area_body_entered"]
+[connection signal="body_exited" from="Ai/GrabArea" to="Puck" method="_on_grab_area_body_exited"]
