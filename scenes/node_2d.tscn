@@ -244,6 +244,7 @@ mass = 0.1
 physics_material_override = SubResource("PhysicsMaterial_l5mka")
 gravity_scale = 0.0
 linear_damp = 0.15
+angular_damp = 100.0
 script = ExtResource("3_d5t5o")
 metadata/_edit_group_ = true
 
@@ -319,6 +320,7 @@ anchors_preset = 0
 offset_right = 40.0
 offset_bottom = 40.0
 script = ExtResource("7_kwc7n")
+metadata/_edit_use_anchors_ = true
 
 [node name="LungeBar" type="ProgressBar" parent="Control"]
 layout_mode = 0
@@ -332,6 +334,7 @@ theme = SubResource("Theme_s0bw5")
 theme_override_styles/background = SubResource("StyleBoxFlat_3r0pa")
 theme_override_styles/fill = SubResource("StyleBoxFlat_i7b82")
 show_percentage = false
+metadata/_edit_use_anchors_ = true
 
 [node name="BotScore" type="Label" parent="Control"]
 layout_mode = 0
@@ -340,6 +343,7 @@ offset_top = 525.0
 offset_right = 890.0
 offset_bottom = 570.0
 label_settings = SubResource("LabelSettings_ei2q8")
+metadata/_edit_use_anchors_ = true
 
 [node name="UserScore" type="Label" parent="Control"]
 layout_mode = 0
@@ -348,6 +352,7 @@ offset_top = 625.0
 offset_right = 890.0
 offset_bottom = 670.0
 label_settings = SubResource("LabelSettings_r5kr0")
+metadata/_edit_use_anchors_ = true
 
 [node name="ThrowBar" type="ProgressBar" parent="Control"]
 visible = false
@@ -379,6 +384,7 @@ offset_top = -8.0
 offset_right = 10.0
 offset_bottom = 7.0
 color = Color(0.912441, 0.412972, 0.349921, 1)
+metadata/_edit_use_anchors_ = true
 
 [node name="Ai" type="CharacterBody2D" parent="."]
 position = Vector2(449, 435)
