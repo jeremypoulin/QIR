@@ -1,4 +1,4 @@
-[gd_scene load_steps=45 format=3 uid="uid://hqw3f50q5l6x"]
+[gd_scene load_steps=46 format=3 uid="uid://hqw3f50q5l6x"]
 
 [ext_resource type="Script" path="res://scripts/CharacterBody2D.gd" id="1_fucrj"]
 [ext_resource type="Texture2D" uid="uid://bccjreg5txub7" path="res://sprites/icon.svg" id="2_0nif7"]
@@ -9,6 +9,7 @@
 [ext_resource type="Script" path="res://scripts/ScoreCollision.gd" id="4_6rpyt"]
 [ext_resource type="PackedScene" uid="uid://dj6tn2l176d8g" path="res://scenes/wall_vertical.tscn" id="4_usgwl"]
 [ext_resource type="Script" path="res://scripts/control.gd" id="7_kwc7n"]
+[ext_resource type="PackedScene" uid="uid://c4xc2ryjl7b1d" path="res://scenes/pause_menu.tscn" id="10_p6g4u"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_51qmn"]
 
@@ -292,10 +293,12 @@ collision_mask = 15
 
 [node name="VerticalWallRight" parent="." instance=ExtResource("4_usgwl")]
 position = Vector2(820, 0)
+scale = Vector2(10, 120)
 collision_mask = 15
 
 [node name="VerticalWallLeft" parent="." instance=ExtResource("4_usgwl")]
 position = Vector2(80, 0)
+scale = Vector2(10, 120)
 collision_mask = 15
 
 [node name="Area2D" type="Area2D" parent="."]
@@ -367,6 +370,13 @@ theme = SubResource("Theme_yinx3")
 theme_override_styles/background = SubResource("StyleBoxFlat_px4mm")
 theme_override_styles/fill = SubResource("StyleBoxFlat_ldlrl")
 show_percentage = false
+
+[node name="PauseMenu" parent="Control" instance=ExtResource("10_p6g4u")]
+visible = false
+offset_left = 430.0
+offset_top = 583.0
+offset_right = 470.0
+offset_bottom = 623.0
 
 [node name="CentreLine" type="StaticBody2D" parent="."]
 position = Vector2(450, 600)
