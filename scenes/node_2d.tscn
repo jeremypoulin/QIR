@@ -9,7 +9,7 @@
 [ext_resource type="Script" path="res://scripts/ScoreCollision.gd" id="4_6rpyt"]
 [ext_resource type="PackedScene" uid="uid://dj6tn2l176d8g" path="res://scenes/wall_vertical.tscn" id="4_usgwl"]
 [ext_resource type="Script" path="res://scripts/control.gd" id="7_kwc7n"]
-[ext_resource type="PackedScene" uid="uid://c4xc2ryjl7b1d" path="res://scenes/pause_menu.tscn" id="10_p6g4u"]
+[ext_resource type="PackedScene" path="res://scenes/pause_menu.tscn" id="10_p6g4u"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_51qmn"]
 
@@ -240,7 +240,7 @@ texture = ExtResource("2_0nif7")
 [node name="Puck" type="RigidBody2D" parent="."]
 position = Vector2(449, 600)
 collision_layer = 4
-collision_mask = 13
+collision_mask = 45
 mass = 0.1
 physics_material_override = SubResource("PhysicsMaterial_l5mka")
 gravity_scale = 0.0
@@ -398,8 +398,8 @@ metadata/_edit_use_anchors_ = true
 
 [node name="Ai" type="CharacterBody2D" parent="."]
 position = Vector2(449, 435)
-collision_layer = 8
-collision_mask = 29
+collision_layer = 32
+collision_mask = 61
 metadata/_edit_group_ = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Ai"]
