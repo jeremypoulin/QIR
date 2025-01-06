@@ -118,7 +118,10 @@ func _physics_process(delta):
 		var collision = get_slide_collision(i)
 		if(collision.get_collider() is RigidBody2D && collision_counter == 0 && no_collisions <= 0):
 			collision_counter = 50
-			collision.get_collider().apply_central_impulse(-collision.get_normal() * outgoing_force)
+			if(lunging):
+				collision.get_collider().apply_central_impulse(-collision.get_normal() * (outgoing_force * 3))
+			else:
+				collision.get_collider().apply_central_impulse(-collision.get_normal() * outgoing_force)
 			if(abs(puck.linear_velocity.length()) > abs(speed) * 3/4 && puck.linear_velocity.length() > 300 || velocity == Vector2.ZERO && puck.linear_velocity.length() >= 300):
 				stunned = true
 				stun_counter = 50
