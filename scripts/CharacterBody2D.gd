@@ -110,7 +110,7 @@ func _physics_process(delta):
 		collision_counter -= 1
 		
 	if(abs(puck.linear_velocity.length()) > abs(speed) * 3/4 && puck.linear_velocity.length() > 300 || velocity == Vector2.ZERO && puck.linear_velocity.length() >= 300):
-		puck_sprite.self_modulate = Color(2, 1, 0)
+		puck_sprite.self_modulate = Color(1, 0, 0)
 	else:
 		puck_sprite.self_modulate = Color(1, 1 , 1)
 	#collision
