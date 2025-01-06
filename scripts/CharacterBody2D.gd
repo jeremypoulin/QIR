@@ -149,35 +149,35 @@ func _physics_process(delta):
 		if(direction_type == 0 || direction_type == 4):
 			$Arrow.position.y = -100
 			$Arrow.position.x = 0
-			$Arrow.global_rotation = 0
+			$Arrow.rotation_degrees = 0
 		if(direction_type == 1):
 			$Arrow.position.y = 0
 			$Arrow.position.x = 100
-			$Arrow.global_rotation = 90
+			$Arrow.rotation_degrees = 90
 		if(direction_type == 2):
 			$Arrow.position.y = 0
 			$Arrow.position.x = -100
-			$Arrow.global_rotation = -90
+			$Arrow.rotation_degrees = -90
 		if(direction_type == 3):
 			$Arrow.position.y = 100
 			$Arrow.position.x = 0
-			$Arrow.global_rotation = 180
+			$Arrow.rotation_degrees = 180
 		if(direction_type == 5):
 			$Arrow.position.y = 100
 			$Arrow.position.x = 100
-			$Arrow.global_rotation = 135
+			$Arrow.rotation_degrees = 135
 		if(direction_type == 6):
 			$Arrow.position.y = -100
 			$Arrow.position.x = 100
-			$Arrow.global_rotation = 45
+			$Arrow.rotation_degrees = 45
 		if(direction_type == 7):
 			$Arrow.position.y = 100
 			$Arrow.position.x = -100
-			$Arrow.global_rotation = -135
+			$Arrow.rotation_degrees = -135
 		if(direction_type == 8):
 			$Arrow.position.y = -100
 			$Arrow.position.x = -100
-			$Arrow.global_rotation = -45
+			$Arrow.rotation_degrees = -45
 			
 	
 	if(!puck.complete && Input.is_action_pressed("ui_grab") && grab_counter == 0):

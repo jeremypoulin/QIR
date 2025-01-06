@@ -1,4 +1,4 @@
-[gd_scene load_steps=48 format=3 uid="uid://hqw3f50q5l6x"]
+[gd_scene load_steps=49 format=3 uid="uid://hqw3f50q5l6x"]
 
 [ext_resource type="Script" path="res://scripts/CharacterBody2D.gd" id="1_fucrj"]
 [ext_resource type="Texture2D" uid="uid://bccjreg5txub7" path="res://sprites/icon.svg" id="2_0nif7"]
@@ -237,7 +237,6 @@ scale = Vector2(0.388, 0.388)
 shape = SubResource("CircleShape2D_r454v")
 
 [node name="Arrow" type="Sprite2D" parent="Character"]
-visible = false
 z_index = 1
 scale = Vector2(3, 3)
 texture = ExtResource("4_qjcqd")
