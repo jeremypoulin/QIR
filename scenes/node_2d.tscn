@@ -12,6 +12,7 @@
 [ext_resource type="Texture2D" uid="uid://ckl726i0vxbnb" path="res://sprites/Puck.png" id="6_y0i6h"]
 [ext_resource type="Script" path="res://scripts/control.gd" id="7_kwc7n"]
 [ext_resource type="PackedScene" uid="uid://c4xc2ryjl7b1d" path="res://scenes/pause_menu.tscn" id="10_p6g4u"]
+[ext_resource type="Script" path="res://scenes/state_machine.gd" id="12_fojxn"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_51qmn"]
 
@@ -432,6 +433,9 @@ shape = SubResource("CircleShape2D_r454v")
 visible = false
 scale = Vector2(0.25, 0.25)
 texture = ExtResource("2_0nif7")
+
+[node name="StateMachine" type="Node" parent="Ai"]
+script = ExtResource("12_fojxn")
 
 [connection signal="body_entered" from="Character/GrabArea" to="Puck" method="_on_grab_area_body_entered"]
 [connection signal="body_exited" from="Character/GrabArea" to="Puck" method="_on_grab_area_body_exited"]
