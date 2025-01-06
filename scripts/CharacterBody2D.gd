@@ -180,7 +180,7 @@ func _physics_process(delta):
 		
 		
 func _grab():
-	if(puck.in_range && !puck.complete && Input.is_action_pressed("ui_grab")):
+	if(puck.in_range && !puck.complete && Input.is_action_pressed("ui_grab") && !stunned):
 		spacer = 3
 		puck.complete = true
 		print("grab!")

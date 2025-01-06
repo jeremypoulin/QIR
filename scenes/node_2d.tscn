@@ -9,7 +9,7 @@
 [ext_resource type="Script" path="res://scripts/ScoreCollision.gd" id="4_6rpyt"]
 [ext_resource type="PackedScene" uid="uid://dj6tn2l176d8g" path="res://scenes/wall_vertical.tscn" id="4_usgwl"]
 [ext_resource type="Script" path="res://scripts/control.gd" id="7_kwc7n"]
-[ext_resource type="PackedScene" path="res://scenes/pause_menu.tscn" id="10_p6g4u"]
+[ext_resource type="PackedScene" uid="uid://c4xc2ryjl7b1d" path="res://scenes/pause_menu.tscn" id="10_p6g4u"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_51qmn"]
 
