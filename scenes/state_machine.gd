@@ -16,11 +16,11 @@ func _ready():
 
 func _process(delta):
 	if current_state:
-		current_state._update(delta)
+		current_state.Update(delta)
 		
 func _physics_process(delta):
 	if current_state:
-		current_state._physics_update(delta)
+		current_state.Physics_Update(delta)
 
 func _on_child_transition(state, new_state_name):
 	if(state != current_state):
