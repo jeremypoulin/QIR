@@ -1,4 +1,4 @@
-[gd_scene load_steps=52 format=3 uid="uid://hqw3f50q5l6x"]
+[gd_scene load_steps=51 format=3 uid="uid://hqw3f50q5l6x"]
 
 [ext_resource type="Script" path="res://scripts/CharacterBody2D.gd" id="1_fucrj"]
 [ext_resource type="Texture2D" uid="uid://bccjreg5txub7" path="res://sprites/icon.svg" id="2_0nif7"]
@@ -14,7 +14,6 @@
 [ext_resource type="PackedScene" uid="uid://c4xc2ryjl7b1d" path="res://scenes/pause_menu.tscn" id="10_p6g4u"]
 [ext_resource type="Script" path="res://scenes/ai.gd" id="12_o6vsp"]
 [ext_resource type="Script" path="res://scripts/state_machine.gd" id="13_2pavl"]
-[ext_resource type="Script" path="res://scenes/grab_area_ai.gd" id="13_7sxiw"]
 [ext_resource type="Script" path="res://scripts/behaviors/active.gd" id="13_8wpjv"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_51qmn"]
@@ -428,7 +427,7 @@ animation = &"up"
 [node name="GrabArea" type="Area2D" parent="Ai"]
 scale = Vector2(25, 25)
 collision_mask = 7
-script = ExtResource("13_7sxiw")
+script = ExtResource("3_qdxev")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Ai/GrabArea"]
 scale = Vector2(0.388, 0.388)

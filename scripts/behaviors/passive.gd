@@ -2,4 +2,9 @@
 #positions to center/guard
 
 extends State
-class_name active
+class_name passive
+@onready var puck = get_parent().get_node("Puck")
+
+func Physics_Update(delta: float):
+	if (puck.velocity.y < 0 || puck.velocity > 0 && puck.global_position.y < 600):
+		Transitioned.emit(self, "active")

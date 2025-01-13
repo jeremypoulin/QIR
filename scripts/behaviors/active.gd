@@ -3,8 +3,18 @@
 
 extends State
 class_name active
+@export var Ai: CharacterBody2D
+@onready var puck = get_parent().get_parent().get_parent().get_node("Puck")
 
-var puck_direction : Vector2
+var move_direction : Vector2
 
-func Enter():
-	move_direction = Vector2()
+func _ready():
+	if Ai == null:
+		Ai = get_parent().get_parent()
+
+func Physics_Update(delta: float):
+	Ai.direction = puck.global_position - Ai.global_position
+	
+	Ai.velocity  = Ai.direction.normalized() * Ai.speed
+	
+		

@@ -1,7 +1,7 @@
 extends Node
 
-@export var initial_state  : State
-var current_state = State
+@export var initial_state  : active
+var current_state = active
 var states : Dictionary = {}
 
 func _ready():
@@ -28,7 +28,7 @@ func _on_child_transition(state, new_state_name):
 	
 	var new_state = states.get(new_state_name.to_lower())
 	if !new_state:
-	return
+		return
 
 	if current_state:
 		current_state.Exit()
@@ -37,5 +37,3 @@ func _on_child_transition(state, new_state_name):
 
 	current_state = new_state
 	
-
-
