@@ -22,6 +22,48 @@ var spacer = 0
 var other_direction = Vector2.ZERO
 
 func _physics_process(delta):
+	
+	if(direction_type == 0 || direction_type == 1):
+		direction = Vector2(0,-1)
+		$Arrow.position.y = -100
+		$Arrow.position.x = 0
+		$Arrow.rotation_degrees = 0
+	if(direction_type == 2):
+		direction = Vector2(1,-1)
+		$Arrow.position.y = -100
+		$Arrow.position.x = 100
+		$Arrow.rotation_degrees = 45
+	if(direction_type == 3):
+		direction = Vector2(1,0)
+		$Arrow.position.y = 0
+		$Arrow.position.x = 100
+		$Arrow.rotation_degrees = 90
+	if(direction_type == 4):
+		direction = Vector2(1,1)
+		$Arrow.position.y = 100
+		$Arrow.position.x = 100
+		$Arrow.rotation_degrees = 135
+	if(direction_type == 5):
+		direction = Vector2(0,1)
+		$Arrow.position.y = 100
+		$Arrow.position.x = 0
+		$Arrow.rotation_degrees = 180
+	if(direction_type == 6):
+		direction = Vector2(-1,1)
+		$Arrow.position.y = 100
+		$Arrow.position.x = -100
+		$Arrow.rotation_degrees = -135
+	if(direction_type == 7):
+		direction = Vector2(-1,0)
+		$Arrow.position.y = 0
+		$Arrow.position.x = -100
+		$Arrow.rotation_degrees = -90
+	if(direction_type == 8):
+		direction = Vector2(-1,-1)
+		$Arrow.position.y = -100
+		$Arrow.position.x = -100
+		$Arrow.rotation_degrees = -45
+	
 	if(!grabbed && !stunned):
 		move_and_slide()
 	
@@ -58,6 +100,7 @@ func _physics_process(delta):
 			stunned = false
 			
 	if(grabbed):
+		direction_type = randi_range(4, 6)
 		spacer -= 1
 		$Arrow.visible = true
 		print("GRABBED")
@@ -69,18 +112,18 @@ func _physics_process(delta):
 			throw_counter -= 2
 			if(throw_counter <= 0):
 				rising = true
+				
 				_throw()
 				
 		
-	if(!puck.complete && Input.is_action_pressed("ui_grab") && grab_counter == 0):
+	if(!puck.complete && puck.in_range && !stunned && grab_counter == 0):
 		_grab()
 				
-	if(puck.complete && Input.is_action_just_pressed("ui_grab")):
+	if(puck.complete && throw_counter >= 90):
 		_throw()
 			
 			
 func _grab():
-	if(puck.in_range && !puck.complete && Input.is_action_pressed("ui_grab") && !stunned):
 		spacer = 3
 		puck.complete = true
 		print("grab!")
@@ -101,7 +144,7 @@ func _throw():
 		grab_counter = 50
 		throwing = true
 		no_collisions = 50
-		puck.set_collision_mask_value(4, false)
+		puck.set_collision_mask_value(6, false)
 		set_collision_mask_value(3, false)
 		puck.scale.x = 1
 		puck.scale.y = 1
