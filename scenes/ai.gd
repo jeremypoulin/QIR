@@ -12,7 +12,7 @@ var grabbed = false
 var grab_counter = 0
 var throwing = true
 var no_collisions = 0
-var speed = 300
+var speed = 400
 var outgoing_force = speed * 0.1
 var lunge_counter = 0.0
 var lunge_duration = 0.0
@@ -105,12 +105,12 @@ func _physics_process(delta):
 		spacer -= 1
 		$Arrow.visible = true
 		print("GRABBED")
-		probability = randi_range(1, 50)
+		probability = randi_range(1, 25)
 		if(probability == 1):
 			_throw()
 		if(rising == true):
 			throw_counter += 2
-			if(throw_counter >= 100):
+			if(throw_counter >= 50):
 				rising = false
 		if(rising == false):
 			throw_counter -= 2
@@ -153,9 +153,9 @@ func _throw():
 		puck.scale.x = 1
 		puck.scale.y = 1
 		if(direction == Vector2.ZERO):
-			puck.linear_velocity = (speed + (10 * throw_counter)) * Vector2.UP
+			puck.linear_velocity = (speed + (25 * throw_counter)) * Vector2.UP
 		else:
-			puck.linear_velocity = (speed + (10 * throw_counter)) * direction
+			puck.linear_velocity = (speed + (25 * throw_counter)) * direction
 		throw_counter = 0
 		puck.global_position.x = global_position.x
 		puck.global_position.y = global_position.y

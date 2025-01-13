@@ -218,7 +218,6 @@ bounce = 0.8
 [node name="Character" type="CharacterBody2D" parent="."]
 z_index = 1
 position = Vector2(449, 767)
-scale = Vector2(0.8, 0.8)
 collision_layer = 8
 collision_mask = 31
 script = ExtResource("1_fucrj")
@@ -387,6 +386,7 @@ scale = Vector2(30, 1)
 theme = SubResource("Theme_yinx3")
 theme_override_styles/background = SubResource("StyleBoxFlat_px4mm")
 theme_override_styles/fill = SubResource("StyleBoxFlat_ldlrl")
+max_value = 50.0
 show_percentage = false
 
 [node name="PauseMenu" parent="Control" instance=ExtResource("10_p6g4u")]
@@ -422,7 +422,6 @@ shape = SubResource("RectangleShape2D_c75ew")
 [node name="Ai" type="CharacterBody2D" parent="."]
 z_index = 1
 position = Vector2(449, 435)
-scale = Vector2(0.8, 0.8)
 collision_layer = 32
 collision_mask = 63
 script = ExtResource("12_o6vsp")

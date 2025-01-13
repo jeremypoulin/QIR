@@ -160,7 +160,7 @@ func _physics_process(delta):
 		print("GRABBED")
 		if(rising == true):
 			throw_counter += 2
-			if(throw_counter >= 100):
+			if(throw_counter >= 50):
 				rising = false
 		if(rising == false):
 			throw_counter -= 2
@@ -236,9 +236,9 @@ func _throw():
 		puck.scale.x = 1
 		puck.scale.y = 1
 		if(direction == Vector2.ZERO):
-			puck.linear_velocity = (speed + (10 * throw_counter)) * Vector2.UP
+			puck.linear_velocity = (speed + (25 * throw_counter)) * Vector2.UP
 		else:
-			puck.linear_velocity = (speed + (10 * throw_counter)) * direction
+			puck.linear_velocity = (speed + (25 * throw_counter)) * direction
 		throw_counter = 0
 		puck.global_position.x = global_position.x
 		puck.global_position.y = global_position.y
