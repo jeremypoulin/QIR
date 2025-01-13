@@ -27,4 +27,15 @@ func _on_child_transition(state, new_state_name):
 		return
 	
 	var new_state = states.get(new_state_name.to_lower())
+	if !new_state:
+	return
+
+	if current_state:
+		current_state.Exit()
+
+	new_state.Enter()
+
+	current_state = new_state
 	
+
+
