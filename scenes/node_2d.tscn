@@ -1,7 +1,6 @@
-[gd_scene load_steps=48 format=3 uid="uid://hqw3f50q5l6x"]
+[gd_scene load_steps=54 format=3 uid="uid://hqw3f50q5l6x"]
 
 [ext_resource type="Script" path="res://scripts/CharacterBody2D.gd" id="1_fucrj"]
-[ext_resource type="Texture2D" uid="uid://bccjreg5txub7" path="res://sprites/icon.svg" id="2_0nif7"]
 [ext_resource type="PackedScene" uid="uid://b8lprc73uov6f" path="res://scenes/wall.tscn" id="3_b4wos"]
 [ext_resource type="Script" path="res://scripts/ScorePoint.gd" id="3_d5t5o"]
 [ext_resource type="Texture2D" uid="uid://dchlyclcgyw0q" path="res://sprites/PHPlayerSS.png" id="3_pgmfr"]
@@ -12,6 +11,11 @@
 [ext_resource type="Texture2D" uid="uid://cjhbjqr6i1hv3" path="res://sprites/PuckV2.png" id="6_gj0j4"]
 [ext_resource type="Script" path="res://scripts/control.gd" id="7_kwc7n"]
 [ext_resource type="PackedScene" uid="uid://c4xc2ryjl7b1d" path="res://scenes/pause_menu.tscn" id="10_p6g4u"]
+[ext_resource type="Script" path="res://scenes/ai.gd" id="12_o6vsp"]
+[ext_resource type="Script" path="res://scripts/state_machine.gd" id="13_2pavl"]
+[ext_resource type="Script" path="res://scenes/grab_area_ai.gd" id="13_7sxiw"]
+[ext_resource type="Script" path="res://scripts/behaviors/active.gd" id="13_8wpjv"]
+[ext_resource type="Script" path="res://scripts/behaviors/passive.gd" id="16_i077j"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_51qmn"]
 
@@ -205,13 +209,17 @@ bounce = 0.8
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_u22hp"]
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_c75ew"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_qi3t3"]
+
 [node name="Node2D" type="Node2D"]
 
 [node name="Character" type="CharacterBody2D" parent="."]
 z_index = 1
 position = Vector2(449, 767)
 collision_layer = 8
-collision_mask = 29
+collision_mask = 31
 script = ExtResource("1_fucrj")
 metadata/_edit_group_ = true
 
@@ -227,7 +235,7 @@ sprite_frames = SubResource("SpriteFrames_rdir2")
 animation = &"up"
 
 [node name="GrabArea" type="Area2D" parent="Character"]
-scale = Vector2(25, 25)
+scale = Vector2(30, 30)
 collision_mask = 7
 script = ExtResource("3_qdxev")
 
@@ -246,7 +254,7 @@ z_index = 1
 position = Vector2(449, 600)
 collision_layer = 4
 collision_mask = 45
-mass = 0.1
+mass = 0.08
 physics_material_override = SubResource("PhysicsMaterial_l5mka")
 gravity_scale = 0.0
 linear_damp = 0.15
@@ -264,6 +272,9 @@ scale = Vector2(9, 9)
 texture = ExtResource("6_gj0j4")
 
 [node name="Timer" type="Timer" parent="Puck"]
+
+[node name="Timeout" type="Timer" parent="Puck"]
+wait_time = 7.0
 
 [node name="HorizontalWallTop" parent="." instance=ExtResource("3_b4wos")]
 position = Vector2(168, 50)
@@ -375,6 +386,7 @@ scale = Vector2(30, 1)
 theme = SubResource("Theme_yinx3")
 theme_override_styles/background = SubResource("StyleBoxFlat_px4mm")
 theme_override_styles/fill = SubResource("StyleBoxFlat_ldlrl")
+max_value = 50.0
 show_percentage = false
 
 [node name="PauseMenu" parent="Control" instance=ExtResource("10_p6g4u")]
@@ -388,7 +400,7 @@ offset_bottom = 623.0
 position = Vector2(450, 600)
 scale = Vector2(37, 1)
 collision_layer = 2
-collision_mask = 2
+collision_mask = 42
 physics_material_override = SubResource("PhysicsMaterial_crg36")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="CentreLine"]
@@ -402,11 +414,17 @@ offset_bottom = 7.0
 color = Color(0.912441, 0.412972, 0.349921, 1)
 metadata/_edit_use_anchors_ = true
 
+[node name="Area2D" type="Area2D" parent="CentreLine"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CentreLine/Area2D"]
+shape = SubResource("RectangleShape2D_c75ew")
+
 [node name="Ai" type="CharacterBody2D" parent="."]
 z_index = 1
 position = Vector2(449, 435)
 collision_layer = 32
-collision_mask = 61
+collision_mask = 63
+script = ExtResource("12_o6vsp")
 metadata/_edit_group_ = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Ai"]
@@ -421,9 +439,9 @@ sprite_frames = SubResource("SpriteFrames_rdir2")
 animation = &"up"
 
 [node name="GrabArea" type="Area2D" parent="Ai"]
-scale = Vector2(25, 25)
+scale = Vector2(20, 20)
 collision_mask = 7
-script = ExtResource("3_qdxev")
+script = ExtResource("13_7sxiw")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Ai/GrabArea"]
 scale = Vector2(0.388, 0.388)
@@ -432,14 +450,31 @@ shape = SubResource("CircleShape2D_r454v")
 [node name="Arrow" type="Sprite2D" parent="Ai"]
 visible = false
 scale = Vector2(0.25, 0.25)
-texture = ExtResource("2_0nif7")
+texture = ExtResource("4_qjcqd")
 
-[node name="StateMachine" type="Node" parent="Ai"]
+[node name="StateMachine" type="Node" parent="Ai" node_paths=PackedStringArray("initial_state")]
+script = ExtResource("13_2pavl")
+initial_state = NodePath("passive")
+
+[node name="active" type="Node" parent="Ai/StateMachine"]
+script = ExtResource("13_8wpjv")
+
+[node name="passive" type="Node" parent="Ai/StateMachine"]
+script = ExtResource("16_i077j")
+
+[node name="casper" type="Area2D" parent="."]
+position = Vector2(450, 225)
+metadata/_edit_group_ = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="casper"]
+shape = SubResource("CircleShape2D_qi3t3")
 
 [connection signal="body_entered" from="Character/GrabArea" to="Puck" method="_on_grab_area_body_entered"]
 [connection signal="body_exited" from="Character/GrabArea" to="Puck" method="_on_grab_area_body_exited"]
 [connection signal="timeout" from="Puck/Timer" to="Puck" method="_on_timer_timeout"]
+[connection signal="timeout" from="Puck/Timeout" to="Character" method="_on_timeout_timeout"]
 [connection signal="body_entered" from="Area2D" to="Puck" method="_on_area_2d_body_entered"]
 [connection signal="body_entered" from="Area2D2" to="Puck" method="_on_area_2d_2_body_entered"]
-[connection signal="body_entered" from="Ai/GrabArea" to="Puck" method="_on_grab_area_body_entered"]
-[connection signal="body_exited" from="Ai/GrabArea" to="Puck" method="_on_grab_area_body_exited"]
+[connection signal="body_exited" from="CentreLine/Area2D" to="Puck" method="_on_area_2d_body_exited"]
+[connection signal="body_entered" from="Ai/GrabArea" to="Puck" method="_on_grab_area_ai_body_entered"]
+[connection signal="body_exited" from="Ai/GrabArea" to="Puck" method="_on_grab_area_ai_body_exited"]

@@ -1,11 +1,17 @@
 extends RigidBody2D
+var stagnant = false
 var complete = false
 var pos_save = null
 var in_range = false
+var in_ai_range = false
 @onready var timer: Timer = $Timer
+@onready var timeout = $Timeout
+
 @onready var character = get_parent().get_node("Character")
 @onready var control = get_parent().get_node("Control")
 @onready var puck = get_parent().get_node("Puck")
+@onready var casper2 = get_parent().get_node("Area2D")
+@onready var casper3 = get_parent().get_node("Area2D2")
 
 func _on_grab_area_body_entered(body: Node2D) -> void:
 	if(body.name.begins_with("Puck")):
@@ -16,6 +22,16 @@ func _on_grab_area_body_exited(body: Node2D) -> void:
 	if(body.name.begins_with("Puck")):
 		print("out range")
 		in_range = false
+		
+func _on_grab_area_ai_body_entered(body: Node2D) -> void:
+	if(body.name.begins_with("Puck")):
+		print("in range")
+		in_ai_range = true
+		
+func _on_grab_area_ai_body_exited(body: Node2D) -> void:
+	if(body.name.begins_with("Puck")):
+		print("out range")
+		in_ai_range = false
 		
 func _on_area_2d_body_entered(body: Node2D) -> void:
 	if(body.name.begins_with("Puck")):

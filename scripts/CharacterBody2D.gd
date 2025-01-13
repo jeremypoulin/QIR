@@ -1,5 +1,7 @@
 extends CharacterBody2D
 
+var character_started = false
+var ai_started = false
 var direction_type = 0
 var rising = true
 var throw_counter = 0
@@ -19,13 +21,29 @@ var spacer = 0
 var direction = Vector2.ZERO
 var other_direction = Vector2.ZERO
 @onready var puck = get_parent().get_node("Puck")
+@onready var timer = get_parent().get_node("Puck/Timer")
+@onready var timeout = get_parent().get_node("Puck/Timeout")
 @onready var puck_sprite = get_parent().get_node("Puck/Sprite2D")
+@onready var control = get_parent().get_node("Control")
 @onready var lunge_bar = get_parent().get_node("Control/LungeBar")
 @onready var throw_bar = get_parent().get_node("Control/ThrowBar")
 @onready var animated_sprite: AnimatedSprite2D = $AnimatedSprite2D
+@onready var casper2 = get_parent().get_node("Area2D")
+@onready var casper3 = get_parent().get_node("Area2D2")
 
 
 func _physics_process(delta):
+	if(puck.global_position.y > 600 && !character_started):
+		ai_started = false
+		Global.side_ai = false
+		timeout.start()
+		character_started = true
+			
+	if(puck.global_position.y < 600 && !ai_started):
+		character_started = false
+		Global.side_ai = true
+		timeout.start()
+		ai_started = true
 	#display lunge bar
 	lunge_bar.value = lunge_counter
 	#display throw bar
@@ -142,7 +160,7 @@ func _physics_process(delta):
 		print("GRABBED")
 		if(rising == true):
 			throw_counter += 2
-			if(throw_counter >= 100):
+			if(throw_counter >= 50):
 				rising = false
 		if(rising == false):
 			throw_counter -= 2
@@ -218,9 +236,34 @@ func _throw():
 		puck.scale.x = 1
 		puck.scale.y = 1
 		if(direction == Vector2.ZERO):
-			puck.linear_velocity = (speed + (10 * throw_counter)) * Vector2.UP
+			puck.linear_velocity = (speed + (25 * throw_counter)) * Vector2.UP
 		else:
-			puck.linear_velocity = (speed + (10 * throw_counter)) * direction
+			puck.linear_velocity = (speed + (25 * throw_counter)) * direction
 		throw_counter = 0
 		puck.global_position.x = global_position.x
 		puck.global_position.y = global_position.y
+
+
+func _on_timeout_timeout():
+	if(Global.side_ai == false):
+		print("P2 Scored")
+		Global.bot_score += 1
+		control._update_bot_score()
+		if(Global.bot_score >= 7):
+			Global.user_score = 0
+			Global.bot_score = 0
+			Global.top_player_win = true
+			get_tree().change_scene_to_file("res://scenes/WinScreen.tscn")
+		else:
+			timer.start()
+	else:
+		print("P1 Scored")
+		Global.user_score += 1
+		control._update_user_score()
+		if(Global.user_score >= 7):
+			Global.user_score = 0
+			Global.bot_score = 0
+			Global.bottom_player_win = true
+			get_tree().change_scene_to_file("res://scenes/WinScreen.tscn")
+		else:
+			timer.start()
