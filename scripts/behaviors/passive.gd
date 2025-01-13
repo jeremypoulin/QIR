@@ -3,8 +3,21 @@
 
 extends State
 class_name passive
-@onready var puck = get_parent().get_node("Puck")
+@export var Ai: CharacterBody2D
+@onready var puck = get_parent().get_parent().get_parent().get_node("Puck")
+@onready var casper = get_parent().get_parent().get_parent().get_node("casper")
+
+func _ready():
+	if Ai == null:
+		Ai = get_parent().get_parent()
 
 func Physics_Update(delta: float):
-	if (puck.velocity.y < 0 || puck.velocity > 0 && puck.global_position.y < 600):
+	Ai.direction = casper.global_position - Ai.global_position
+	
+	Ai.velocity  = Ai.direction.normalized() * Ai.speed
+	
+	if(Ai.global_position == casper.global_position):
+		Ai.velocity = Vector2.ZERO
+	
+	if (puck.linear_velocity.y < 0 || puck.linear_velocity.y > 0 && puck.global_position.y < 600):
 		Transitioned.emit(self, "active")

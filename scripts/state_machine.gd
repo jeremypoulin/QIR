@@ -1,7 +1,7 @@
 extends Node
 
-@export var initial_state  : active
-var current_state = active
+@export var initial_state  : passive
+var current_state = passive
 var states : Dictionary = {}
 
 func _ready():

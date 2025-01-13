@@ -5,8 +5,7 @@ extends State
 class_name active
 @export var Ai: CharacterBody2D
 @onready var puck = get_parent().get_parent().get_parent().get_node("Puck")
-
-var move_direction : Vector2
+@onready var character = get_parent().get_parent().get_parent().get_node("Character")
 
 func _ready():
 	if Ai == null:
@@ -16,5 +15,9 @@ func Physics_Update(delta: float):
 	Ai.direction = puck.global_position - Ai.global_position
 	
 	Ai.velocity  = Ai.direction.normalized() * Ai.speed
+	
+	if (puck.linear_velocity.y > 0 && puck.global_position.y > 600 || character.grabbed):
+		Transitioned.emit(self, "passive")
+
 	
 		

@@ -2,6 +2,7 @@ extends CharacterBody2D
 class_name ai
 @onready var puck = get_parent().get_node("Puck")
 
+var probability = 0
 var direction_type = 0
 var rising = true
 var throw_counter = 0
@@ -11,7 +12,7 @@ var grabbed = false
 var grab_counter = 0
 var throwing = true
 var no_collisions = 0
-var speed = 400
+var speed = 300
 var outgoing_force = speed * 0.1
 var lunge_counter = 0.0
 var lunge_duration = 0.0
@@ -104,6 +105,9 @@ func _physics_process(delta):
 		spacer -= 1
 		$Arrow.visible = true
 		print("GRABBED")
+		probability = randi_range(1, 50)
+		if(probability == 1):
+			_throw()
 		if(rising == true):
 			throw_counter += 2
 			if(throw_counter >= 100):
@@ -116,7 +120,7 @@ func _physics_process(delta):
 				_throw()
 				
 		
-	if(!puck.complete && puck.in_range && !stunned && grab_counter == 0):
+	if(!puck.complete && puck.in_ai_range && !stunned && grab_counter == 0):
 		_grab()
 				
 	if(puck.complete && throw_counter >= 90):
